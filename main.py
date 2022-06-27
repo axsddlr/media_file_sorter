@@ -8,7 +8,7 @@ if __name__ == '__main__':
     # create an argument parser
     parser = argparse.ArgumentParser()
     # add an argument
-    parser.add_argument('--path', help='path to the directory')
+    parser.add_argument('path', help='path to the directory')
     # add and argument for get_files function
     parser.add_argument('--get_files', action='store_true', help='get the files in the directory')
     # add and argument for get_file_sizes function
@@ -26,8 +26,7 @@ if __name__ == '__main__':
     # parse the arguments
     args = parser.parse_args()
     # get the path
-    if args.path:
-        path = args.path
+    path = args.path
     # call the move_small_files function if the --move_small_files argument is passed
     if args.only_small:
         move_small_files(path)
