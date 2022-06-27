@@ -8,25 +8,26 @@ if __name__ == '__main__':
     # create an argument parser
     parser = argparse.ArgumentParser()
     # add an argument
-    parser.add_argument('path', help='path to the directory')
+    parser.add_argument('--path', help='path to the directory')
     # add and argument for get_files function
-    parser.add_argument('--get_files', action='store_true')
+    parser.add_argument('--get_files', action='store_true', help='get the files in the directory')
     # add and argument for get_file_sizes function
-    parser.add_argument('--get_sizes', action='store_true')
+    parser.add_argument('--get_sizes', action='store_true', help='get the file sizes in the directory')
     # add and argument for move_files function
-    parser.add_argument('--move_files', action='store_true')
+    parser.add_argument('--move_files', action='store_true', help='move all sized files to the directories')
     # add and argument for move_small_files function
-    parser.add_argument('--only_small', action='store_true')
+    parser.add_argument('--only_small', action='store_true', help='move only small files to the small files directory')
     # add and argument for move_large_files function
-    parser.add_argument('--only_large', action='store_true')
+    parser.add_argument('--only_large', action='store_true', help='move only large files to the large files directory')
     # add and argument for remove_small_files function
-    parser.add_argument('--remove_small', action='store_true')
+    parser.add_argument('--remove_small', action='store_true', help='remove small files directory')
     # add and argument for remove_large_files function
-    parser.add_argument('--remove_large', action='store_true')
+    parser.add_argument('--remove_large', action='store_true', help='remove large files directory')
     # parse the arguments
     args = parser.parse_args()
     # get the path
-    path = args.path
+    if args.path:
+        path = args.path
     # call the move_small_files function if the --move_small_files argument is passed
     if args.only_small:
         move_small_files(path)
