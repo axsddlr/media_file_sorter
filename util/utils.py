@@ -50,7 +50,7 @@ def get_file_sizes(dir_name):
                 # if the file has the extension
                 if file.endswith(extension):
                     # get the file size
-                    size = os.path.getsize(file)
+                    size = os.stat(file).st_size
                     # convert the size to megabytes
                     size = size / 1000000
                     # add the file size to the list
@@ -78,7 +78,7 @@ def move_files(dir_name):
     # loop through the files and move them to the new directory if they are less than 100mb
     for file in files:
         # get the file size
-        size = os.path.getsize(file)
+        size = os.stat(file).st_size
 
         # if the file is less than 100mb
         if size > 100000000:
@@ -107,7 +107,7 @@ def move_large_files(dir_name):
     # loop through the files and move them to the new directory if they are less than 100mb
     for file in files:
         # get the file size
-        size = os.path.getsize(file)
+        size = os.stat(file).st_size
 
         # if the file is less than 100mb
         if size > 100000000:
@@ -133,7 +133,7 @@ def move_small_files(dir_name):
     # loop through the files and move them to the new directory if they are less than 100mb
     for file in files:
         # get the file size
-        size = os.path.getsize(file)
+        size = os.stat(file).st_size
 
         # if the file is less than 100mb
         if size < 100000000:
