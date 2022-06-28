@@ -31,11 +31,14 @@ def get_files(dir_name):
     return files
 
 
-def move_small(source_dir):
+def move_small(source_dir, size: int):
     """
-    Move all files in the source directory that are less than 100 megabytes to the destination directory
+    This function takes a source directory and a size in megabytes as arguments and moves all files in the source directory
+    that are less than the size to a destination directory named small_files
 
     :param source_dir: the directory where the files are currently located
+    :param size: the size in megabytes that you want to move
+    :type size: int
     """
     # get current working directory and create dest_dir named small_files
     cwd = os.getcwd()
@@ -53,7 +56,7 @@ def move_small(source_dir):
         # convert the bytes to megabytes
         file_size_mb = file_size / 1000000
 
-        if file_size_mb < 300:
+        if file_size_mb < size:
             # create a directory if it doesn't exist
             if not os.path.exists(dest_dir):
                 os.makedirs(dest_dir)
@@ -61,11 +64,14 @@ def move_small(source_dir):
             shutil.move(os.path.join(source_dir, file), dest_dir)  # move the file to the destination directory
 
 
-def move_large(source_dir):
+def move_large(source_dir, size: int):
     """
-    Move all files in the source directory that are less than 100 megabytes to the destination directory
+    This function takes a source directory and a size in megabytes as arguments, and moves all files in the source directory
+    that are larger than the specified size to a destination directory named large_files.
 
     :param source_dir: the directory where the files are currently located
+    :param size: the size of the file in megabytes
+    :type size: int
     """
     # get current working directory and create dest_dir named small_files
     cwd = os.getcwd()
@@ -82,7 +88,7 @@ def move_large(source_dir):
         # convert the file size to megabytes
         file_size_mb = file_size / 1000000
 
-        if file_size_mb > 300:
+        if file_size_mb > size:
             # create a directory if it doesn't exist
             if not os.path.exists(dest_dir):
                 os.makedirs(dest_dir)
