@@ -65,7 +65,7 @@ def move_large(source_dir):
     """
     # get current working directory and create dest_dir named small_files
     cwd = os.getcwd()
-    dest_dir = os.path.join(cwd, 'small_files')
+    dest_dir = os.path.join(cwd, 'large_files')
     # create a list to store the file sizes
 
     # get the files in the source directory
