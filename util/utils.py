@@ -49,7 +49,11 @@ def move_small(source_dir):
         # get the file size
         file_size = os.path.getsize(os.path.join(source_dir, file))
         # if the file size is greater than 100 megabytes
-        if file_size < 100000000:
+
+        # convert the bytes to megabytes
+        file_size_mb = file_size / 1000000
+
+        if file_size_mb < 300:
             # create a directory if it doesn't exist
             if not os.path.exists(dest_dir):
                 os.makedirs(dest_dir)
@@ -75,7 +79,10 @@ def move_large(source_dir):
         # get the file size
         file_size = os.path.getsize(os.path.join(source_dir, file))
         # if the file size is greater than 100 megabytes
-        if file_size > 100000000:
+        # convert the file size to megabytes
+        file_size_mb = file_size / 1000000
+
+        if file_size_mb > 300:
             # create a directory if it doesn't exist
             if not os.path.exists(dest_dir):
                 os.makedirs(dest_dir)
