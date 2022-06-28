@@ -1,6 +1,6 @@
 import argparse
-from util.utils import move_small, move_large
 
+from util.utils import move_small, move_large, get_file_sizes
 
 if __name__ == '__main__':
     # create an argument parser
@@ -10,6 +10,7 @@ if __name__ == '__main__':
     # add and argument for move_small function
     parser.add_argument('--move_small', help='move files to small files directory', action='store_true')
     parser.add_argument('--move_large', help='move files to large files directory', action='store_true')
+    parser.add_argument('--get_file_sizes', help='get file sizes', action='store_true')
     args = parser.parse_args()
     # get the path
     path = args.path
@@ -18,3 +19,5 @@ if __name__ == '__main__':
         move_small(path)
     if args.move_large:
         move_large(path)
+    if args.get_file_sizes:
+        print(get_file_sizes(path))

@@ -58,7 +58,7 @@ def move_small(source_dir):
             if not os.path.exists(dest_dir):
                 os.makedirs(dest_dir)
             # move the file to the destination directory
-            shutil.move(os.path.join(source_dir, file), dest_dir)   # move the file to the destination directory
+            shutil.move(os.path.join(source_dir, file), dest_dir)  # move the file to the destination directory
 
 
 def move_large(source_dir):
@@ -87,6 +87,28 @@ def move_large(source_dir):
             if not os.path.exists(dest_dir):
                 os.makedirs(dest_dir)
             # move the file to the destination directory
-            shutil.move(os.path.join(source_dir, file), dest_dir)   # move the file to the destination directory
+            shutil.move(os.path.join(source_dir, file), dest_dir)  # move the file to the destination directory
 
 
+# get file name and file sizes in megabytes using get_files function
+def get_file_sizes(source_dir):
+    """
+    Get the file sizes of all files in the source directory
+
+    :param source_dir: the directory where the files are currently located
+    :return: A list of tuples containing the file name and file size in megabytes
+    """
+    # get the files in the source directory
+    files = get_files(source_dir)
+    # create a list to store the file sizes
+    file_sizes = []
+    # loop through the files
+    for file in files:
+        # get the file size
+        file_size = os.path.getsize(os.path.join(source_dir, file))
+        # convert the bytes to megabytes
+        file_size_mb = file_size / 1000000
+        # add the file name and file size to the list
+        file_sizes.append((file, file_size_mb))
+    # return the list
+    return file_sizes
