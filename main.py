@@ -28,7 +28,7 @@ if __name__ == '__main__':
             exit(1)
         move_large(path, args.size)
     elif args.get_file_sizes:
-        print(get_file_sizes(path))
+        get_file_sizes(path)
     elif args.get_files:
         print(get_videos(path))
     else:
