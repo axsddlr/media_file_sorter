@@ -1,6 +1,6 @@
 import argparse
 
-from util.utils import move_small, move_large, get_file_sizes, get_videos
+from util.utils import move_small, move_large, get_file_sizes, get_videos, remove_directories
 
 if __name__ == '__main__':
     # create an argument parser
@@ -11,6 +11,8 @@ if __name__ == '__main__':
     parser.add_argument('--get_file_sizes', help='get file sizes', action='store_true')
     parser.add_argument('--size', help='the size to move files to', type=int)
     parser.add_argument('--get_files', help='get files', action='store_true')
+    parser.add_argument('--remove_all', help='remove small_files and large_files directories', action='store_true')
+
     args = parser.parse_args()
     # get the path
     path = args.path
@@ -31,6 +33,8 @@ if __name__ == '__main__':
         get_file_sizes(path)
     elif args.get_files:
         print(get_videos(path))
+    elif args.remove_all:
+        remove_directories()
     else:
         print('No arguments passed')
         print('Please use --help for more information')

@@ -159,3 +159,23 @@ def get_file_sizes(source_dir):
     # and print them one by one.
     for f, s in size_of_file:
         print("{}: {} MB".format(f, round(s / (1024 * 1024), 3)))
+
+
+def remove_directories():
+    """
+    If the large_files and small_files directories exist, remove them
+    """
+    # get current working directory
+    cwd = os.getcwd()
+    # get the large_files directory
+    large_files_dir = os.path.join(cwd, 'large_files')
+    # get the small_files directory
+    small_files_dir = os.path.join(cwd, 'small_files')
+    # if the large_files directory exists
+    if os.path.exists(large_files_dir):
+        # remove the large_files directory
+        shutil.rmtree(large_files_dir)
+    # if the small_files directory exists
+    if os.path.exists(small_files_dir):
+        # remove the small_files directory
+        shutil.rmtree(small_files_dir)
