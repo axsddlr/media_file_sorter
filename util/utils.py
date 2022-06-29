@@ -6,29 +6,71 @@ SUBDIRS = {
 }
 
 
-# create a function that lists all the files in a directory based on SUBDIRS
-def get_files(dir_name):
+# get files in directories and subdirectories using glob
+def get_files(source_dir):
     """
-    It loops through the SUBDIRS dictionary, and for each subdirectory, it loops through the extensions, and for each
-    extension, it loops through the files in the directory, and if the file has the extension, it adds it to the list.
+    It takes a directory as an argument and returns a list of all the files in that directory and all of its subdirectories
 
-    :param dir_name: the directory to search for files
-    :return: A list of files
+    :param source_dir: the directory to get the files from
+    :return: A list of all the files in the source directory and its subdirectories.
     """
+    # get the files in the source directory
+    files = os.listdir(source_dir)
     # create a list to store the files
-    files = []
-    # loop through the SUBDIRS
-    for subdir, extensions in SUBDIRS.items():
-        # loop through the extensions
-        for extension in extensions:
-            # get the files in the path
-            for file in os.listdir(dir_name):
-                # if the file has the extension
-                if file.endswith(extension):
-                    # add the file to the list
-                    files.append(file)
+    file_list = []
+    # loop through the files
+    for file in files:
+        # get the file name
+        file_name = os.path.join(source_dir, file)
+        # if the file is a directory
+        if os.path.isdir(file_name):
+            # get the files in the subdirectory
+            sub_files = get_files(file_name)
+            # add the files to the list
+            file_list.extend(sub_files)
+        # if the file is a file
+        else:
+            # add the file to the list
+            file_list.append(file)
     # return the list
-    return files
+    return file_list
+
+
+# get files that endswith a video extension using get_files function
+def get_videos(source_dir):
+    """
+    It takes a directory as an argument, gets the files in the directory, creates a list to store the files, loops through
+    the files, gets the file name, checks if the file is a directory, gets the files in the subdirectory, adds the files to
+    the list, checks if the file is a file, gets the file extension, checks if the file extension is a video extension, adds
+    the file to the list, and returns the list
+
+    :param source_dir: the directory to search for videos
+    :return: A list of video files.
+    """
+    # get the files in the source directory
+    files = get_files(source_dir)
+    # create a list to store the files
+    video_files = []
+    # loop through the files
+    for file in files:
+        # get the file name
+        file_name = os.path.join(source_dir, file)
+        # if the file is a directory
+        if os.path.isdir(file_name):
+            # get the files in the subdirectory
+            sub_files = get_videos(file_name)
+            # add the files to the list
+            video_files.extend(sub_files)
+        # if the file is a file
+        else:
+            # get the file extension
+            file_ext = os.path.splitext(file_name)[1]
+            # if the file extension is a video extension
+            if file_ext in SUBDIRS["VIDEOS"]:
+                # add the file to the list
+                video_files.append(file)
+    # return the list
+    return video_files
 
 
 def move_small(source_dir, size: int):
@@ -46,7 +88,7 @@ def move_small(source_dir, size: int):
     # create a list to store the file sizes
 
     # get the files in the source directory
-    files = get_files(source_dir)
+    files = get_videos(source_dir)
     # loop through the files
     for file in files:
         # get the file size
@@ -79,7 +121,7 @@ def move_large(source_dir, size: int):
     # create a list to store the file sizes
 
     # get the files in the source directory
-    files = get_files(source_dir)
+    files = get_videos(source_dir)
     # loop through the files
     for file in files:
         # get the file size
@@ -99,13 +141,14 @@ def move_large(source_dir, size: int):
 # get file name and file sizes in megabytes using get_files function
 def get_file_sizes(source_dir):
     """
-    Get the file sizes of all files in the source directory
+    It takes a directory as an argument, gets the files in that directory, creates a list to store the file sizes, loops
+    through the files, gets the file size, converts the bytes to megabytes, and adds the file name and file size to the list
 
-    :param source_dir: the directory where the files are currently located
-    :return: A list of tuples containing the file name and file size in megabytes
+    :param source_dir: the directory where the files are located
+    :return: A list of tuples containing the file name and file size in megabytes.
     """
     # get the files in the source directory
-    files = get_files(source_dir)
+    files = get_videos(source_dir)
     # create a list to store the file sizes
     file_sizes = []
     # loop through the files
