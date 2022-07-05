@@ -42,17 +42,19 @@ def remove_directories(path):
         os.rmdir(path)
 
 
-# create function to delete small_files directory
 def remove_small_files(path):
-    if os.path.exists(path):
-        shutil.rmtree(path)
-        print("Removed small_files directory")
-    else:
-        print("Small_files directory does not exist")
+    """
+    This function will delete the small_files directory.
+
+    :param path: the path to the directory you want to delete the small_files directory from
+    """
+    # if the small_files directory exists, delete it
+    if os.path.exists(os.path.join(path, "small_files")):
+        shutil.rmtree(os.path.join(path, "small_files"))
 
 
 # use get_files to move files to a directory called small_files
-def move_small_files(path, size):
+def move_small_files(path, size: int):
     """
     If the file extension is in the video_extensions list, get the file size and if the file size is less than 50MB, move
     the file to the small_files directory.
@@ -118,7 +120,10 @@ def get_file_sizes(path):
 
 def convert_bytes(num):
     """
-    this function will convert bytes to MB.... GB... etc
+    It takes a number of bytes and returns a string with the number and the unit of measurement
+
+    :param num: The number of bytes to convert
+    :return: the size of the file in bytes, KB, MB, GB, or TB.
     """
     for x in ['bytes', 'KB', 'MB', 'GB', 'TB']:
         if num < 1024.0:

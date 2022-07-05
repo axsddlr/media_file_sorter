@@ -1,6 +1,6 @@
 import argparse
 
-from util.utils import move_small_files, get_files, get_file_sizes, remove_directories
+from util.utils import move_small_files, get_files, get_file_sizes, remove_directories, remove_small_files
 
 if __name__ == '__main__':
     # create an argument parser
@@ -10,7 +10,8 @@ if __name__ == '__main__':
     parser.add_argument('--get_file_sizes', help='get file sizes', action='store_true')
     parser.add_argument('--size', help='the size to move files to', type=int)
     parser.add_argument('--get_files', help='get files', action='store_true')
-    parser.add_argument('--remove_all', help='remove small_files and large_files directories', action='store_true')
+    parser.add_argument('--remove_empty', help='remove small_files and large_files directories', action='store_true')
+    parser.add_argument('--remove_small', help='remove small_files and large_files directories', action='store_true')
 
     args = parser.parse_args()
     # get the path
@@ -32,11 +33,16 @@ if __name__ == '__main__':
             print('Please provide a path')
             exit(1)
         print(get_files(path))
-    elif args.remove_all:
+    elif args.remove_empty:
         if not path:
             print('Please provide a path')
             exit(1)
         remove_directories(path)
+    elif args.remove_small:
+        if not path:
+            print('Please provide a path')
+            exit(1)
+        remove_small_files(path)
     else:
         print('No arguments passed')
         print('Please use --help for more information')
