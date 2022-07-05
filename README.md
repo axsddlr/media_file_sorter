@@ -29,6 +29,11 @@ Clone the repo
    git clone https://github.com/axsddlr/media_file_sorter.git
    ```
 
+Install the requirements
+   ```sh
+   pip install -r requirements.txt
+   ```
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
