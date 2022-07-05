@@ -3,12 +3,12 @@
 <br />
 <div align="center">
 
-<a href="https://github.com/axsddlr/bulk_file_sorter">
-  <h3 align="center">Bulk File Sorter</h3>
+<a href="https://github.com/axsddlr/media_file_sorter">
+  <h3 align="center">Media File Sorter</h3>
 </a>
 
   <p align="center">
-    Sort files based on their size
+    Sort video files based on their size
     <br />
     <br />
     <br />
@@ -26,7 +26,7 @@ This is an example of how to list things you need to use the software and how to
 
 Clone the repo
    ```sh
-   git clone https://github.com/axsddlr/bulk_file_sorter.git
+   git clone https://github.com/axsddlr/media_file_sorter.git
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
