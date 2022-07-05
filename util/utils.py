@@ -1,7 +1,7 @@
 import os
-
-# create a list of video file extensions
 import shutil
+
+import cv2
 
 video_extensions = ['.mp4', '.avi', '.mkv', '.mov', '.wmv', '.flv', '.mpeg', '.mpg', '.m4v', '.3gp', '.3g2', '.mts',
                     '.ts', '.webm']
@@ -53,13 +53,14 @@ def remove_small_files(path):
         shutil.rmtree(os.path.join(path, "small_files"))
 
 
-# use get_files to move files to a directory called small_files
 def move_small_files(path, size: int):
     """
-    If the file extension is in the video_extensions list, get the file size and if the file size is less than 50MB, move
-    the file to the small_files directory.
+    It will move all files that are less than 50MB in size to a
+    directory called "small_files" in the same directory as the file.
 
-    :param path: the path to the directory you want to search
+    :param path: This is the path to the directory that you want to move the files from
+    :param size: This is the size of the file in MB
+    :type size: int
     """
     # Looping through the path, subdirectories, and files.
     for path, subdirs, files in os.walk(path):
@@ -95,6 +96,112 @@ def move_small_files(path, size: int):
                         # Moving the file from the path to the destination directory.
                         shutil.move(os.path.join(path, filename), dest_dir)
 
+                    # if small_files directory is empty, delete it
+                    if not os.listdir(dest_dir):
+                        os.rmdir(dest_dir)
+
+
+def move_short_duration_files(path, duration: float):
+    """
+    It will move all files that are less than 50MB in size to a
+    directory called "small_files" in the same directory as the file.
+
+    :param path: This is the path to the directory that you want to move the files from
+    :param duration: This is the duration of the video in seconds
+    :type duration: int
+    """
+    # Looping through the path, subdirectories, and files.
+    for path, subdirs, files in os.walk(path):
+        # Looping through the files in the path.
+        for filename in files:
+            # if the file extension is in the video_extensions list, add it to the list
+            if os.path.splitext(filename)[1] in video_extensions:
+                # if path is windows, replace backslashes with forward slashes
+                if os.name == 'nt':
+                    path = path.replace('\\', '/')
+                else:
+                    path = path
+                # get the file size
+                dur = get_dur(os.path.join(path, filename))
+                dest_dir = path.rsplit("/", 1)[0] + "/small_files"
+                # print the file size
+                # print(filename + ": " + dur)
+                # if the duration is less than the duration argument, move the file to the small_files directory
+                if dur < duration:
+                    # Checking to see if the file exists in the destination directory. If it does, it will continue
+                    # to the next file.
+                    if os.path.exists(os.path.join(dest_dir, filename)):
+                        continue
+                    else:
+                        # Moving the file from the path to the destination directory.
+                        shutil.move(os.path.join(path, filename), dest_dir)
+
+                    # if small_files directory is empty, delete it
+                    if not os.listdir(dest_dir):
+                        os.rmdir(dest_dir)
+
+
+def move_long_duration_files(path, duration: float):
+    """
+    If the file is a video file, get the duration of the file. If the
+    duration is greater than the duration argument, move the file to the large_files directory.
+
+    :param path: The path to the directory you want to move files from
+    :param duration: The duration of the video in seconds
+    :type duration: float
+    """
+    # Looping through the path, subdirectories, and files.
+    for path, subdirs, files in os.walk(path):
+        # Looping through the files in the path.
+        for filename in files:
+            # if the file extension is in the video_extensions list, add it to the list
+            if os.path.splitext(filename)[1] in video_extensions:
+                # if path is windows, replace backslashes with forward slashes
+                if os.name == 'nt':
+                    path = path.replace('\\', '/')
+                else:
+                    path = path
+                # get the file size
+                dur = get_dur(os.path.join(path, filename))
+                dest_dir = path.rsplit("/", 1)[0] + "/large_files"
+                # print the file size
+                # print(filename + ": " + dur)
+                # if the duration is less than the duration argument, move the file to the small_files directory
+                if dur > duration:
+                    # Checking to see if the file exists in the destination directory. If it does, it will continue
+                    # to the next file.
+                    if os.path.exists(os.path.join(dest_dir, filename)):
+                        continue
+                    else:
+                        # Moving the file from the path to the destination directory.
+                        shutil.move(os.path.join(path, filename), dest_dir)
+
+                    # Checking to see if the destination directory is empty. If it is, it will delete the directory.
+                    if not os.listdir(dest_dir):
+                        os.rmdir(dest_dir)
+
+
+def get_video_duration(path):
+    """
+    For each file in the directory, if the file extension is in the video_extensions list, get the file size and print the
+    file name and size
+
+    :param path: the path to the directory you want to search
+    """
+    for path, subdirs, files in os.walk(path):
+        for filename in files:
+            # if the file extension is in the video_extensions list, add it to the list
+            if os.path.splitext(filename)[1] in video_extensions:
+                # if path is windows, replace backslashes with forward slashes
+                if os.name == 'nt':
+                    path = path.replace('\\', '/')
+                else:
+                    path = path
+                # get the file size
+                dur = get_dur(os.path.join(path, filename))
+                # print the file size
+                print(filename + ": " + dur)
+
 
 def get_file_sizes(path):
     """
@@ -129,3 +236,20 @@ def convert_bytes(num):
         if num < 1024.0:
             return "%3.1f %s" % (num, x)
         num /= 1024.0
+
+
+def get_dur(filename):
+    """
+    It takes a video file as input and returns the duration of the video in minutes
+
+    :param filename: The name of the video file
+    :return: the duration of the video in minutes.
+    """
+    video = cv2.VideoCapture(filename)
+    fps = video.get(cv2.CAP_PROP_FPS)
+    frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
+    seconds = frame_count / fps
+    minutes = int(seconds / 60)
+    rem_sec = int(seconds % 60)
+    # return f"{minutes}:{rem_sec}"
+    return minutes
