@@ -36,6 +36,13 @@ Install the requirements
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Raspberry PI support
+
+for cv2 to work:
+  ```sh
+  sudo apt-get install ffmpeg libsm6 libxext6  -y
+  ```
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 ## Usage
