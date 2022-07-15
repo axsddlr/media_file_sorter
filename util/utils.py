@@ -35,11 +35,21 @@ def get_files(source_dir):
     # return the list
     return file_list
 
+    # create function to delete empty directories
 
-# create function to delete empty directories
+
 def remove_directories(path):
-    if not os.listdir(path):
+    # get the files in the path
+    files = os.listdir(path)
+    # if the files list is empty, delete the directory
+    if not files:
         os.rmdir(path)
+    # if the files list is not empty, loop through the files
+    else:
+        for f in files:
+            # if the file is a directory, call the function again
+            if os.path.isdir(os.path.join(path, f)):
+                remove_directories(os.path.join(path, f))
 
 
 def remove_small_files(path):
