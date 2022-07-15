@@ -128,17 +128,15 @@ def move_short_duration_files(path, duration: float):
                 # print(filename + ": " + dur)
                 # if the duration is less than the duration argument, move the file to the small_files directory
                 if dur < duration:
-                    # Checking to see if the file exists in the destination directory. If it does, it will continue
-                    # to the next file.
-                    if os.path.exists(os.path.join(dest_dir, filename)):
+                    # Checking to see if the destination directory exists. If it does not exist, it creates the
+                    # directory.
+                    if not os.path.exists(dest_dir):
+                        os.makedirs(dest_dir)
+                    if os.path.exists(os.path.join(dest_dir, filename)) and os.path.exists(dest_dir):
                         continue
                     else:
                         # Moving the file from the path to the destination directory.
                         shutil.move(os.path.join(path, filename), dest_dir)
-
-                    # if small_files directory is empty, delete it
-                    if not os.listdir(dest_dir):
-                        os.rmdir(dest_dir)
 
 
 def move_long_duration_files(path, duration: float):
@@ -170,15 +168,13 @@ def move_long_duration_files(path, duration: float):
                 if dur > duration:
                     # Checking to see if the file exists in the destination directory. If it does, it will continue
                     # to the next file.
-                    if os.path.exists(os.path.join(dest_dir, filename)):
+                    if not os.path.exists(dest_dir):
+                        os.makedirs(dest_dir)
+                    if os.path.exists(os.path.join(dest_dir, filename)) and os.path.exists(dest_dir):
                         continue
                     else:
                         # Moving the file from the path to the destination directory.
                         shutil.move(os.path.join(path, filename), dest_dir)
-
-                    # Checking to see if the destination directory is empty. If it is, it will delete the directory.
-                    if not os.listdir(dest_dir):
-                        os.rmdir(dest_dir)
 
 
 def get_video_duration(path):
