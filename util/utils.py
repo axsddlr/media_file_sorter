@@ -254,7 +254,10 @@ def get_dur(filename):
     video = cv2.VideoCapture(filename)
     fps = video.get(cv2.CAP_PROP_FPS)
     frame_count = video.get(cv2.CAP_PROP_FRAME_COUNT)
-    seconds = frame_count / fps
+    try:
+        seconds = frame_count / fps
+    except ZeroDivisionError:
+        seconds = 0
     minutes = int(seconds / 60)
     rem_sec = int(seconds % 60)
     # return f"{minutes}:{rem_sec}"
