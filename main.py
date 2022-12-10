@@ -1,5 +1,4 @@
 import argparse
-
 from util.utils import *
 
 if __name__ == '__main__':
@@ -20,48 +19,27 @@ if __name__ == '__main__':
     args = parser.parse_args()
     # get the path
     path = args.path
-    # call the move_small_files function if the --move_small_files argument is passed
-    # call move_large function with size argument if the --move_large argument is passed
-    if args.move_small:
-        if not args.size:
-            print('Please provide a size using the --size argument')
-            exit(1)
-        move_small_files(path, args.size)
-    elif args.get_file_sizes:
-        if not path:
-            print('Please provide a path')
-            exit(1)
-        get_file_sizes(path)
-    elif args.get_files:
-        if not path:
-            print('Please provide a path')
-            exit(1)
-        print(get_files(path))
-    elif args.remove_empty:
-        if not path:
-            print('Please provide a path')
-            exit(1)
-        remove_directories(path)
-    elif args.remove_small:
-        if not path:
-            print('Please provide a path')
-            exit(1)
-        remove_small_files(path)
-    elif args.get_video_duration:
-        if not path:
-            print('Please provide a path')
-            exit(1)
-        get_video_duration(path)
-    elif args.get_short_video:
-        if not args.duration:
-            print('Please provide a duration using the --duration argument')
-            exit(1)
-        move_short_duration_files(path, args.duration)
-    elif args.get_long_video:
-        if not args.duration:
-            print('Please provide a duration using the --duration argument')
-            exit(1)
-        move_long_duration_files(path, args.duration)
+
+    # define a dictionary of functions, where the keys are the names of the arguments
+    # and the values are the functions to call
+    functions = {
+        'move_small': lambda: move_small_files(path, args.size),
+        'get_file_sizes': lambda: get_file_sizes(path),
+        'get_files': lambda: print(get_files(path)),
+        'remove_empty': lambda: remove_directories(path),
+        'remove_small': lambda: remove_small_files(path),
+        'get_video_duration': lambda: get_video_duration(path),
+        'get_short_video': lambda: move_short_duration_files(path, args.duration),
+        'get_long_video': lambda: move_long_duration_files(path, args.duration),
+    }
+
+    # get the key of the first argument passed to the script, and use it to retrieve the
+    # corresponding function from the functions dictionary
+    # if no argument is passed, print an error message and exit
+    arg = next(iter(args.keys()), None)
+    func = functions.get(arg)
+    if func:
+        func()
     else:
         print('No arguments passed')
         print('Please use --help for more information')
