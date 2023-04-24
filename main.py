@@ -34,6 +34,11 @@ if __name__ == "__main__":
         help="get long video duration (in minutes)",
         action="store_true",
     )
+    parser.add_argument(
+        "--remove_short_videos",
+        help="remove video files shorter than the specified duration (in seconds)",
+        action="store_true",
+    )
 
     args = parser.parse_args()
     path = args.path
@@ -51,12 +56,13 @@ if __name__ == "__main__":
         get_file_sizes(path)
     elif args.get_files:
         print(get_files(path))
-    elif args.remove_empty:
-        remove_directories(path)
-    elif args.remove_small:
-        remove_small_files(path)
     elif args.get_video_duration:
         get_video_duration(path)
+    elif args.remove_short_videos:
+        if not args.duration:
+            print("Please provide a duration using the --duration argument")
+            exit(1)
+        remove_short_duration_files(path, args.duration)
     elif args.get_short_video:
         if not args.duration:
             print("Please provide a duration using the --duration argument")
